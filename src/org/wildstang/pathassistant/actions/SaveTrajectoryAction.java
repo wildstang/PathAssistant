@@ -70,11 +70,6 @@ public class SaveTrajectoryAction extends AbstractAction
             bos.write(output.getBytes());
             bos.flush();
             bos.close();
-//            fos = new FileOutputStream(file);
-//            ObjectOutputStream oos = new ObjectOutputStream(fos);
-//            oos.writeObject(m_controller.getViewConfig());
-//            oos.flush();
-//            oos.close();
          }
          catch (FileNotFoundException e1)
          {
