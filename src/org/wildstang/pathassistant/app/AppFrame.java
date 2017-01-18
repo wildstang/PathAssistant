@@ -2,13 +2,16 @@ package org.wildstang.pathassistant.app;
 
 
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
+import org.wildstang.pathassistant.data.WaypointModel;
 import org.wildstang.pathassistant.views.DataPanel;
 import org.wildstang.pathassistant.views.GraphPanel;
 
-public class AppFrame extends JFrame
+public class AppFrame extends JFrame implements KeyListener
 {
    
    private DataPanel m_dataPanel;
@@ -39,6 +42,9 @@ public class AppFrame extends JFrame
       
       add(m_dataPanel, BorderLayout.WEST);
       add(m_graphPanel, BorderLayout.CENTER);
+      
+      m_dataPanel.setFocusable(true);
+      m_dataPanel.addKeyListener(this);
    }
    
    private void setupWindowEvents()
@@ -50,4 +56,30 @@ public class AppFrame extends JFrame
    {
       return m_graphPanel;
    }
+   
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("abrgbraeub");
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("Button Pressed LOLOLO");
+		WaypointModel model = PathAssistant.m_applicationController.getWaypointModel();
+
+		if (e.getKeyCode() == KeyEvent.VK_EQUALS) {
+			model.addRow(new double[] { 0, 0 });
+		} else if (e.getKeyCode() == KeyEvent.VK_MINUS) {
+			model.deleteRow();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+   
 }
