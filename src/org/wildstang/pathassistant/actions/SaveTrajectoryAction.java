@@ -32,8 +32,8 @@ public class SaveTrajectoryAction extends AbstractAction
    @Override
    public void actionPerformed(ActionEvent p_arg0)
    {
-      File file = null;
-      
+      File file_right = null;
+      File file_left = null;
 //      if (m_controller.getCurrentViewFile() == null)
 //      {
          // Show file selection dialog
@@ -46,30 +46,49 @@ public class SaveTrajectoryAction extends AbstractAction
 //         else
 //         {
             fc = new JFileChooser();
+            fc.setDialogTitle("Save Right Path");
 //         }
-         int returnVal = fc.showSaveDialog(PathAssistant.m_applicationController.getAppFrame());
+         int returnValRight = fc.showSaveDialog(PathAssistant.m_applicationController.getAppFrame());
 
-         if (returnVal == JFileChooser.APPROVE_OPTION) {
-             file = fc.getSelectedFile();
+         if (returnValRight == JFileChooser.APPROVE_OPTION) {
+             file_right = fc.getSelectedFile();
              //This is where a real application would open the file.
          } else {
          }
+         
+         fc = new JFileChooser();
+         fc.setDialogTitle("Save Left Path");
+//       }
+       int returnValLeft = fc.showSaveDialog(PathAssistant.m_applicationController.getAppFrame());
+
+       if (returnValLeft == JFileChooser.APPROVE_OPTION) {
+           file_left = fc.getSelectedFile();
+           //This is where a real application would open the file.
+       } else {
+       }
+         
+         
 //      }
       
       
       // Save the file
       FileOutputStream fos = null;
       
-      if (file != null)
+      if (file_right != null && file_left != null)
       {
          try
          {
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            BufferedOutputStream bos_right = new BufferedOutputStream(new FileOutputStream(file_right));
+            BufferedOutputStream bos_left = new BufferedOutputStream(new FileOutputStream(file_left));
             
-            String output = formatTrajectoryOutput(PathAssistant.m_applicationController.getPathGenerator());
-            bos.write(output.getBytes());
-            bos.flush();
-            bos.close();
+            String output_right = formatTrajectoryOutput(PathAssistant.m_applicationController.getPathGenerator(), true);
+            String output_left = formatTrajectoryOutput(PathAssistant.m_applicationController.getPathGenerator(), true);
+            bos_right.write(output_right.getBytes());
+            bos_right.flush();
+            bos_right.close();
+            bos_left.write(output_left.getBytes());
+            bos_left.flush();
+            bos_left.close();
          }
          catch (FileNotFoundException e1)
          {
@@ -85,7 +104,7 @@ public class SaveTrajectoryAction extends AbstractAction
    }
 
    
-   private String formatTrajectoryOutput(FalconPathPlanner generator)
+   private String formatTrajectoryOutput(FalconPathPlanner generator, boolean isRight)
    {
       StringBuffer outputBuf = new StringBuffer();
       StringBuffer leftBuf = new StringBuffer();
@@ -111,9 +130,16 @@ public class SaveTrajectoryAction extends AbstractAction
       }
       
       // Add the two together
-      outputBuf.append(leftBuf.toString());
-      outputBuf.append("-\n");
-      outputBuf.append(rightBuf.toString());
+//      outputBuf.append(leftBuf.toString());   OLD STUFF
+//      outputBuf.append("-\n");
+//      outputBuf.append(rightBuf.toString());
+      
+      //NEW STUFF
+      if (isRight) {
+    	  outputBuf.append(rightBuf.toString());
+      } else {
+    	  outputBuf.append(leftBuf.toString());
+      }
       
       return outputBuf.toString();
    }
