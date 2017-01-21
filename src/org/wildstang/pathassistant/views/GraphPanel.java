@@ -99,8 +99,13 @@ public class GraphPanel extends JPanel
       
       //Field Blockages
       m_pathPlot.addData(new double[][]{{93.3 / 12, 12 - (70.5 / 24)},{93.3 / 12,12 + (70.5 / 24)}}, Color.ORANGE);
-      
-      
+      m_pathPlot.addData(new double[][]{{93.3 / 12, 12 + (70.5 /24)}, {(93.3 / 12) + (70.5 * Math.sqrt(3) / 24), 12 + (70.5 /12)}},Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{93.3 / 12, 12 - (70.5 /24)}, {(93.3 / 12) + (70.5 * Math.sqrt(3) / 24), 12 - (70.5 /12)}},Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 24) , 12 + (70.5 /12)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12) , 12 + (70.5 / 24)}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 24) , 12 - (70.5 /12)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12) , 12 - (70.5 / 24)}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12), 12 - (70.5 / 24)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12),12 + (70.5 / 24)}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{0,42 / Math.sqrt(2) / 12}, { 42 / Math.sqrt(2) / 12, 0}}, Color.ORANGE  );
+      m_pathPlot.addData(new double[][]{{0, 73 * Math.sqrt(2) / 12},{73 * Math.sqrt(2) / 12, 0}}, Color.YELLOW);
       
       m_pathPlot.addData(leftWheel.getCoords(), Color.magenta);
       m_pathPlot.addData(rightWheel.getCoords(), Color.magenta);
