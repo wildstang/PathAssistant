@@ -1,6 +1,19 @@
 package org.wildstang.pathassistant.generator;
 
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.List;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Robot;
+import java.awt.Stroke;
+import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.DataFlavor;
@@ -10,13 +23,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.DateFormat.Field;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 
 /**
  * This class is a basic plotting class using the Java AWT interface. It has basic features which allow the user 
@@ -275,7 +295,7 @@ public class FalconLinePlot extends JPanel implements ClipboardOwner{
         g2.draw(xaxis);
         
         //find Max Y limits
-        getMinMax(link);
+        //getMinMax(link);
         
         //draw ticks
         drawYTickRange(g2, yaxis, 15, yMax, yMin);
@@ -360,6 +380,7 @@ public class FalconLinePlot extends JPanel implements ClipboardOwner{
     	g2.setColor(tempC);
     }
     
+
     /**
      * need to optimize for loops
      * @param list

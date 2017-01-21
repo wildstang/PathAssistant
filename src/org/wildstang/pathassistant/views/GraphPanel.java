@@ -43,7 +43,7 @@ public class GraphPanel extends JPanel
    public void update()
    {
       FalconPathPlanner pathGenerator = PathAssistant.m_applicationController.getPathGenerator();
-      Path path = new Path(PathAssistant.m_applicationController.getWaypointModel().getRawData());
+      Path plannedPath = new Path(PathAssistant.m_applicationController.getWaypointModel().getRawData());
 
       Track leftWheel = new Track();
       Track rightWheel = new Track();
@@ -57,10 +57,11 @@ public class GraphPanel extends JPanel
       
       center.setCoords(pathGenerator.smoothPath);
       
-      path.setLeft(leftWheel);
-      path.setRight(rightWheel);
-      path.setSmoothPath(center);
+      plannedPath.setLeft(leftWheel);
+      plannedPath.setRight(rightWheel);
+      plannedPath.setSmoothPath(center);
 
+      double[][] readPath = PathAssistant.m_applicationController.getPathFromFile(plannedPath.getSmoothPath().getCoords()[0], 0);
 
 //      m_velocityPlot = new FalconLinePlot(pathGenerator.smoothCenterVelocity,null,Color.blue);
       
@@ -71,8 +72,8 @@ public class GraphPanel extends JPanel
       m_velocityPlot.setYLabel("Velocity (ft/sec)");
       m_velocityPlot.setXLabel("time (seconds)");
       m_velocityPlot.setTitle("Velocity Profile for Left and Right Wheels \n Left = Cyan, Right = Magenta");
-      m_velocityPlot.addData(path.getRight().getVelocities(), Color.magenta);
-      m_velocityPlot.addData(path.getLeft().getVelocities(), Color.cyan);
+      m_velocityPlot.addData(plannedPath.getRight().getVelocities(), Color.magenta);
+      m_velocityPlot.addData(plannedPath.getLeft().getVelocities(), Color.cyan);
 
       m_velocityPlot.updateUI();
       
@@ -88,9 +89,19 @@ public class GraphPanel extends JPanel
       //force graph to show 1/2 field dimensions of 24ft x 27 feet
       m_pathPlot.setXTic(0, 27, 1);
       m_pathPlot.setYTic(0, 24, 1);
-      m_pathPlot.addData(path.getSmoothPath().getCoords(), Color.red, Color.blue);
-
-
+      m_pathPlot.addData(plannedPath.getSmoothPath().getCoords(), Color.red, Color.blue);
+      //Plot actual path we got (if we have one)
+      if (readPath != null) {
+    	  m_pathPlot.addData(readPath, Color.GREEN);
+    	  //m_pathPlot.addData(readPath.getRight().getCoords(), Color.WHITE);
+    	  //m_pathPlot.addData(readPath.getLeft().getCoords(), Color.WHITE);
+      }
+      
+      //Field Blockages
+      m_pathPlot.addData(new double[][]{{93.3 / 12, 12 - (70.5 / 24)},{93.3 / 12,12 + (70.5 / 24)}}, Color.ORANGE);
+      
+      
+      
       m_pathPlot.addData(leftWheel.getCoords(), Color.magenta);
       m_pathPlot.addData(rightWheel.getCoords(), Color.magenta);
       
