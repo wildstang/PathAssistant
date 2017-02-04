@@ -15,7 +15,7 @@ import org.wildstang.pathassistant.actions.SaveTrajectoryAction;
 import org.wildstang.pathassistant.app.PathAssistant;
 import org.wildstang.pathassistant.data.WaypointModel;
 
-public class DataPanel extends JPanel implements KeyListener
+public class DataPanel extends JPanel
 {
    
    private JTable m_waypointTable;
@@ -32,6 +32,7 @@ public class DataPanel extends JPanel implements KeyListener
    private void init()
    {
       m_waypointTable = new JTable(PathAssistant.m_applicationController.getWaypointModel());
+      m_waypointTable.setFocusable(false);
       PathAssistant.m_applicationController.getWaypointModel().addTableModelListener(m_waypointTable);
       
       setLayout(new BorderLayout());
@@ -42,36 +43,12 @@ public class DataPanel extends JPanel implements KeyListener
       JPanel buttonPanel = new JPanel();
       JButton generateButton = new JButton(new GeneratePathAction("Generate path"));
       JButton saveButton = new JButton(new SaveTrajectoryAction("Save trajectory"));
+      generateButton.setFocusable(false);
+      saveButton.setFocusable(false);
       buttonPanel.setLayout(new BorderLayout());
       buttonPanel.add(generateButton, BorderLayout.NORTH);
       buttonPanel.add(saveButton, BorderLayout.SOUTH);
       add(buttonPanel, BorderLayout.SOUTH);
    }
-   
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println("Button Pressed");
-		WaypointModel model = PathAssistant.m_applicationController.getWaypointModel();
-
-		if (e.getKeyCode() == KeyEvent.VK_PLUS) {
-			model.addRow(new double[] { 0, 0 });
-		} else if (e.getKeyCode() == KeyEvent.VK_MINUS) {
-			model.deleteRow();
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
 
 }

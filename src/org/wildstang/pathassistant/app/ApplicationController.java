@@ -50,7 +50,7 @@ public class ApplicationController
            //This is where a real application would open the file.
        } else {
     	   file = null;
-    	   return new double[][]{{0},{0}};
+    	   return null;
        }
 	   String line = null;
 	   try {

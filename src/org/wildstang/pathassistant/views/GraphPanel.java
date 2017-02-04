@@ -34,6 +34,9 @@ public class GraphPanel extends JPanel
       m_pathPlot.setPreferredSize(new Dimension(700, 300));
       m_velocityPlot.setPreferredSize(new Dimension(700, 300));
       
+      m_pathPlot.setFocusable(false);
+      m_velocityPlot.setFocusable(false);
+      
       setLayout(new BorderLayout());
       
       add(m_pathPlot, BorderLayout.NORTH);

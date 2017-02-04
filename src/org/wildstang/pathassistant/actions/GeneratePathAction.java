@@ -25,7 +25,6 @@ public class GeneratePathAction extends AbstractAction
       FalconPathPlanner generator = PathAssistant.m_applicationController.getPathGenerator();
       WaypointModel model = PathAssistant.m_applicationController.getWaypointModel();
       
-      
       Path path = new Path(model.getRawData());
       generator.reset();
       generator.init(path);
@@ -38,8 +37,7 @@ public class GeneratePathAction extends AbstractAction
       generator.calculate(totalTime, timeStep, robotTrackWidth);
       
       PathAssistant.m_applicationController.getGraphPanel().update();
-      PathAssistant.m_applicationController.getAppFrame().refreshKeyListener();
-      
+     
    }
 
 }
