@@ -2,8 +2,8 @@ package org.wildstang.pathassistant.views;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -13,7 +13,6 @@ import javax.swing.JTable;
 import org.wildstang.pathassistant.actions.GeneratePathAction;
 import org.wildstang.pathassistant.actions.SaveTrajectoryAction;
 import org.wildstang.pathassistant.app.PathAssistant;
-import org.wildstang.pathassistant.data.WaypointModel;
 
 public class DataPanel extends JPanel
 {
@@ -24,8 +23,6 @@ public class DataPanel extends JPanel
    {
       setMinimumSize(new Dimension(150, 600));
       setPreferredSize(new Dimension(150, 600));
-      //setFocusable(true);
-      //addKeyListener(this);
       init();
    }
    
@@ -49,6 +46,10 @@ public class DataPanel extends JPanel
       buttonPanel.add(generateButton, BorderLayout.NORTH);
       buttonPanel.add(saveButton, BorderLayout.SOUTH);
       add(buttonPanel, BorderLayout.SOUTH);
+   }
+   
+   public JTable getWaypointTable() {
+	   return m_waypointTable;
    }
 
 }

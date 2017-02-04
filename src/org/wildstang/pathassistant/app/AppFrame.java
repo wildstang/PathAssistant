@@ -2,20 +2,26 @@ package org.wildstang.pathassistant.app;
 
 
 import java.awt.BorderLayout;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JFrame;
+import javax.swing.KeyStroke;
 
 import org.wildstang.pathassistant.data.WaypointModel;
 import org.wildstang.pathassistant.views.DataPanel;
 import org.wildstang.pathassistant.views.GraphPanel;
 
-public class AppFrame extends JFrame implements KeyListener
+public class AppFrame extends JFrame
 {
    
    private DataPanel m_dataPanel;
    private GraphPanel m_graphPanel;
+   private boolean plusPressed;
+   private boolean minusPressed;
    
    public AppFrame(String p_title)
    {
@@ -37,15 +43,24 @@ public class AppFrame extends JFrame implements KeyListener
    {
       setLayout(new BorderLayout());
       
+      plusPressed = true;
+      minusPressed = true;
+      
       m_dataPanel = new DataPanel();
       m_graphPanel = new GraphPanel();
-      
+      //KeyStroke.get
       add(m_dataPanel, BorderLayout.WEST);
       add(m_graphPanel, BorderLayout.CENTER);
-      
-      m_dataPanel.setFocusable(true);
-      m_dataPanel.addKeyListener(this);
+      m_dataPanel.getInputMap().put(KeyStroke.getKeyStroke("EQUALS"),
+              "+ pressed");
+      m_dataPanel.getInputMap().put(KeyStroke.getKeyStroke("MINUS"),
+              "- pressed");
+      m_dataPanel.getActionMap().put("+ pressed",
+               addRow);
+      m_dataPanel.getActionMap().put("- pressed",
+               removeRow);
    }
+   
    
    private void setupWindowEvents()
    {
@@ -63,29 +78,24 @@ public class AppFrame extends JFrame implements KeyListener
    }
    
    
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println("abrgbraeub");
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println("Button Pressed LOLOLO");
-		WaypointModel model = PathAssistant.m_applicationController.getWaypointModel();
-
-		if (e.getKeyCode() == KeyEvent.VK_EQUALS) {
-			model.addRow(new double[] { 0, 0 });
-		} else if (e.getKeyCode() == KeyEvent.VK_MINUS) {
-			model.deleteRow();
+   Action removeRow = new AbstractAction() {
+	    public void actionPerformed(ActionEvent e) {
+	    	System.out.println("remove");
+	    	WaypointModel model = PathAssistant.m_applicationController.getWaypointModel();
+	    	if(minusPressed) {
+	    		model.deleteRow();
+	    	}
+	    }
+	};
+	
+	Action addRow = new AbstractAction() {
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("add");
+		    WaypointModel model = PathAssistant.m_applicationController.getWaypointModel();
+		    if (plusPressed) {
+		    		model.addRow(new double[] { 0, 0 });
+		    }
 		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-   
+	};
+	
 }
