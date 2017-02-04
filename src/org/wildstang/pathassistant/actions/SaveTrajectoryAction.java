@@ -82,7 +82,7 @@ public class SaveTrajectoryAction extends AbstractAction
             BufferedOutputStream bos_left = new BufferedOutputStream(new FileOutputStream(file_left));
             
             String output_right = formatTrajectoryOutput(PathAssistant.m_applicationController.getPathGenerator(), true);
-            String output_left = formatTrajectoryOutput(PathAssistant.m_applicationController.getPathGenerator(), true);
+            String output_left = formatTrajectoryOutput(PathAssistant.m_applicationController.getPathGenerator(), false);
             bos_right.write(output_right.getBytes());
             bos_right.flush();
             bos_right.close();

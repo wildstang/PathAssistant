@@ -57,6 +57,10 @@ public class AppFrame extends JFrame implements KeyListener
       return m_graphPanel;
    }
    
+   public void refreshKeyListener() {
+	   m_dataPanel.setFocusable(true);
+   }
+   
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub

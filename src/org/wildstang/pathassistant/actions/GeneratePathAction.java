@@ -38,6 +38,8 @@ public class GeneratePathAction extends AbstractAction
       generator.calculate(totalTime, timeStep, robotTrackWidth);
       
       PathAssistant.m_applicationController.getGraphPanel().update();
+      PathAssistant.m_applicationController.getAppFrame().refreshKeyListener();
+      
    }
 
 }

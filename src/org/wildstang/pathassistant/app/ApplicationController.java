@@ -49,6 +49,8 @@ public class ApplicationController
            file = fc.getSelectedFile();
            //This is where a real application would open the file.
        } else {
+    	   file = null;
+    	   return new double[][]{{0},{0}};
        }
 	   String line = null;
 	   try {
