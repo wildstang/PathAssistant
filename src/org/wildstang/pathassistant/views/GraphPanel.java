@@ -29,10 +29,10 @@ public class GraphPanel extends JPanel
       m_pathPlot = new FalconLinePlot(new double[0][0]);
       m_velocityPlot = new FalconLinePlot(new double[0][0]);
       
-      m_pathPlot.setMinimumSize(new Dimension(700, 300));
-      m_velocityPlot.setMinimumSize(new Dimension(700, 300));
-      m_pathPlot.setPreferredSize(new Dimension(700, 300));
-      m_velocityPlot.setPreferredSize(new Dimension(700, 300));
+      m_pathPlot.setMinimumSize(new Dimension(700, 350));
+      m_velocityPlot.setMinimumSize(new Dimension(700, 250));
+      m_pathPlot.setPreferredSize(new Dimension(700, 350));
+      m_velocityPlot.setPreferredSize(new Dimension(700, 250));
       
       m_pathPlot.setFocusable(false);
       m_velocityPlot.setFocusable(false);
@@ -94,7 +94,7 @@ public class GraphPanel extends JPanel
 
       //force graph to show 1/2 field dimensions of 24ft x 27 feet
       m_pathPlot.setXTic(0, 27, 1);
-      m_pathPlot.setYTic(0, 24, 1);
+      m_pathPlot.setYTic(0, 27, 1);
       m_pathPlot.addData(plannedPath.getSmoothPath().getCoords(), Color.red, Color.blue);
       //Plot actual path we got (if we have one)
       if (readPath != null) {
@@ -104,14 +104,18 @@ public class GraphPanel extends JPanel
       }
       
       //Field Blockages
-      m_pathPlot.addData(new double[][]{{93.3 / 12, 12 - (70.5 / 24)},{93.3 / 12,12 + (70.5 / 24)}}, Color.ORANGE);
-      m_pathPlot.addData(new double[][]{{93.3 / 12, 12 + (70.5 /24)}, {(93.3 / 12) + (70.5 * Math.sqrt(3) / 24), 12 + (70.5 /12)}},Color.ORANGE);
-      m_pathPlot.addData(new double[][]{{93.3 / 12, 12 - (70.5 /24)}, {(93.3 / 12) + (70.5 * Math.sqrt(3) / 24), 12 - (70.5 /12)}},Color.ORANGE);
-      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 24) , 12 + (70.5 /12)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12) , 12 + (70.5 / 24)}}, Color.ORANGE);
-      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 24) , 12 - (70.5 /12)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12) , 12 - (70.5 / 24)}}, Color.ORANGE);
-      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12), 12 - (70.5 / 24)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12),12 + (70.5 / 24)}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{93.3 / 12, 13.5 - (101 / Math.sqrt(3) / 24)},{93.3 / 12,13.5 + (101 / Math.sqrt(3) / 24)}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{93.3 / 12, 13.5 + (101 / Math.sqrt(3) /24)}, {(93.3 / 12) + (101 / 24), 13.5 + (101 / Math.sqrt(3) /12)}},Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{93.3 / 12, 13.5 - (101 / Math.sqrt(3) /24)}, {(93.3 / 12) + (101 / 24), 13.5 - (101 / Math.sqrt(3) /12)}},Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (101 / 24) , 13.5 + (101 / Math.sqrt(3) /12)},{(93.3 / 12) + (101 / 12) , 13.5 + (101 / Math.sqrt(3) / 24)}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (101 / 24) , 13.5 - (101 / Math.sqrt(3) /12)},{(93.3 / 12) + (101 / 12) , 13.5 - (101 / Math.sqrt(3) / 24)}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (101 / 12), 13.5 - (101 / Math.sqrt(3) / 24)},{(93.3 / 12) + (101 / 12),13.5 + (101 / Math.sqrt(3) / 24)}}, Color.ORANGE);
       m_pathPlot.addData(new double[][]{{0,42 / Math.sqrt(2) / 12}, { 42 / Math.sqrt(2) / 12, 0}}, Color.ORANGE  );
       m_pathPlot.addData(new double[][]{{0, 73 * Math.sqrt(2) / 12},{73 * Math.sqrt(2) / 12, 0}}, Color.YELLOW);
+      m_pathPlot.addData(new double[][]{{0,(21 * Math.sqrt(3) / 12) + 27 - 165 /(12 * Math.sqrt(3))}, {102.5 / 12, 27}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{0, 27 - 165 /(12 * Math.sqrt(3))},{165.5 / 12, 27}}, Color.YELLOW);
+      m_pathPlot.addData(new double[][]{{6.5417, 0}, {8.75, 0}}, new Color(231, 23, 112));
+      
       
       m_pathPlot.addData(leftWheel.getCoords(), Color.magenta);
       m_pathPlot.addData(rightWheel.getCoords(), Color.magenta);

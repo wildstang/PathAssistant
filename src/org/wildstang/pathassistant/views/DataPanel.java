@@ -2,10 +2,10 @@ package org.wildstang.pathassistant.views;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.GridLayout;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -18,6 +18,7 @@ public class DataPanel extends JPanel
 {
    
    private JTable m_waypointTable;
+   private JCheckBox pathBackwards;
    
    public DataPanel()
    {
@@ -38,14 +39,20 @@ public class DataPanel extends JPanel
       m_waypointTable.setFillsViewportHeight(true);
       
       JPanel buttonPanel = new JPanel();
+      pathBackwards = new JCheckBox(" Backwards");
       JButton generateButton = new JButton(new GeneratePathAction("Generate path"));
       JButton saveButton = new JButton(new SaveTrajectoryAction("Save trajectory"));
       generateButton.setFocusable(false);
       saveButton.setFocusable(false);
-      buttonPanel.setLayout(new BorderLayout());
-      buttonPanel.add(generateButton, BorderLayout.NORTH);
-      buttonPanel.add(saveButton, BorderLayout.SOUTH);
+      buttonPanel.setLayout(new GridLayout(3,1));
+      buttonPanel.add(pathBackwards);
+      buttonPanel.add(generateButton);
+      buttonPanel.add(saveButton);
       add(buttonPanel, BorderLayout.SOUTH);
+   }
+   
+   public boolean isBackwards() {
+	   return pathBackwards.isSelected();
    }
    
    public JTable getWaypointTable() {

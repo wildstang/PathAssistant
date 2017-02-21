@@ -32,8 +32,10 @@ public class SaveTrajectoryAction extends AbstractAction
    @Override
    public void actionPerformed(ActionEvent p_arg0)
    {
+	  
       File file_right = null;
       File file_left = null;
+      boolean isPathBackwards = PathAssistant.m_applicationController.getAppFrame().getDataPanel().isBackwards(); 
 //      if (m_controller.getCurrentViewFile() == null)
 //      {
          // Show file selection dialog
@@ -46,6 +48,7 @@ public class SaveTrajectoryAction extends AbstractAction
 //         else
 //         {
             fc = new JFileChooser();
+            fc.setCurrentDirectory(new File("C:/Users/Janine/Documents/2017_ROBOT_PATHS"));
             fc.setDialogTitle("Save Right Path");
 //         }
          int returnValRight = fc.showSaveDialog(PathAssistant.m_applicationController.getAppFrame());
@@ -57,6 +60,7 @@ public class SaveTrajectoryAction extends AbstractAction
          }
          
          fc = new JFileChooser();
+         fc.setCurrentDirectory(new File("C:/Users/Janine/Documents/2017_ROBOT_PATHS"));
          fc.setDialogTitle("Save Left Path");
 //       }
        int returnValLeft = fc.showSaveDialog(PathAssistant.m_applicationController.getAppFrame());
@@ -81,8 +85,8 @@ public class SaveTrajectoryAction extends AbstractAction
             BufferedOutputStream bos_right = new BufferedOutputStream(new FileOutputStream(file_right));
             BufferedOutputStream bos_left = new BufferedOutputStream(new FileOutputStream(file_left));
             
-            String output_right = formatTrajectoryOutput(PathAssistant.m_applicationController.getPathGenerator(), true);
-            String output_left = formatTrajectoryOutput(PathAssistant.m_applicationController.getPathGenerator(), false);
+            String output_right = formatTrajectoryOutput(PathAssistant.m_applicationController.getPathGenerator(), true, isPathBackwards);
+            String output_left = formatTrajectoryOutput(PathAssistant.m_applicationController.getPathGenerator(), false, isPathBackwards);
             bos_right.write(output_right.getBytes());
             bos_right.flush();
             bos_right.close();
@@ -104,7 +108,7 @@ public class SaveTrajectoryAction extends AbstractAction
    }
 
    
-   private String formatTrajectoryOutput(FalconPathPlanner generator, boolean isRight)
+   private String formatTrajectoryOutput(FalconPathPlanner generator, boolean isRight, boolean isBackwards)
    {
       StringBuffer outputBuf = new StringBuffer();
       StringBuffer leftBuf = new StringBuffer();
@@ -125,8 +129,17 @@ public class SaveTrajectoryAction extends AbstractAction
       {
          m_cumulativeLeftDist += distToRotations(generator.leftPath[i], generator.leftPath[i-1]);
          m_cumulativeRightDist += distToRotations(generator.rightPath[i], generator.rightPath[i-1]);
-         leftBuf.append(m_cumulativeLeftDist + "," + velPerSecToRPM(generator.smoothLeftVelocity[i][1]) + "," + nearest10((generator.smoothLeftVelocity[i][0] - generator.smoothLeftVelocity[i-1][0])) + "\n");
-         rightBuf.append(m_cumulativeRightDist + "," + velPerSecToRPM(generator.smoothRightVelocity[i][1]) + "," + nearest10((generator.smoothRightVelocity[i][0] - generator.smoothRightVelocity[i-1][0])) + "\n");
+         
+         //int backwards = (isBackwards == true ? -1 : 1);
+         if (isBackwards) {
+        	 //***Might need to make distance negative
+        	 leftBuf.append(m_cumulativeRightDist + "," + (velPerSecToRPM(generator.smoothRightVelocity[i][1]) * -1) + "," + nearest10((generator.smoothLeftVelocity[i][0] - generator.smoothLeftVelocity[i-1][0])) + "\n");
+        	 rightBuf.append(m_cumulativeLeftDist + "," + (velPerSecToRPM(generator.smoothLeftVelocity[i][1]) * -1) + "," + nearest10((generator.smoothRightVelocity[i][0] - generator.smoothRightVelocity[i-1][0])) + "\n");
+      
+         } else {
+        	 leftBuf.append(m_cumulativeLeftDist + "," + (velPerSecToRPM(generator.smoothLeftVelocity[i][1])) + "," + nearest10((generator.smoothLeftVelocity[i][0] - generator.smoothLeftVelocity[i-1][0])) + "\n");
+        	 rightBuf.append(m_cumulativeRightDist + "," + (velPerSecToRPM(generator.smoothRightVelocity[i][1])) + "," + nearest10((generator.smoothRightVelocity[i][0] - generator.smoothRightVelocity[i-1][0])) + "\n");
+         }
       }
       
       // Add the two together

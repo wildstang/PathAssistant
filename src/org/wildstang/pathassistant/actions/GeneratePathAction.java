@@ -27,12 +27,11 @@ public class GeneratePathAction extends AbstractAction
       
       Path path = new Path(model.getRawData());
       generator.reset();
-      generator.init(path);
-      
+      generator.init(path);      
       // TODO: Get these params from UI
       double totalTime = 5; //seconds
-      double timeStep = 0.03; //period of control loop on Rio, seconds
-      double robotTrackWidth = 2; //distance between left and right wheels, feet
+      double timeStep = 0.02; //period of control loop on Rio, seconds
+      double robotTrackWidth = 2.5; //distance between left and right wheels, feet
 
       generator.calculate(totalTime, timeStep, robotTrackWidth);
       
