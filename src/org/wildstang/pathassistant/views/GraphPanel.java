@@ -45,6 +45,9 @@ public class GraphPanel extends JPanel
    
    public void update()
    {
+      m_pathPlot.setPreferredSize(new Dimension(700, PathAssistant.m_applicationController.getAppFrame().getHeight() / 2));
+      m_velocityPlot.setPreferredSize(new Dimension(700, PathAssistant.m_applicationController.getAppFrame().getHeight() / 2));
+
       FalconPathPlanner pathGenerator = PathAssistant.m_applicationController.getPathGenerator();
       Path plannedPath = new Path(PathAssistant.m_applicationController.getWaypointModel().getRawData());
 
