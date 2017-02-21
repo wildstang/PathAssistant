@@ -45,9 +45,6 @@ public class GraphPanel extends JPanel
    
    public void update()
    {
-      m_pathPlot.setPreferredSize(new Dimension(700, PathAssistant.m_applicationController.getAppFrame().getHeight() / 2));
-      m_velocityPlot.setPreferredSize(new Dimension(700, PathAssistant.m_applicationController.getAppFrame().getHeight() / 2));
-
       FalconPathPlanner pathGenerator = PathAssistant.m_applicationController.getPathGenerator();
       Path plannedPath = new Path(PathAssistant.m_applicationController.getWaypointModel().getRawData());
 
@@ -104,12 +101,12 @@ public class GraphPanel extends JPanel
       }
       
       //Field Blockages
-      m_pathPlot.addData(new double[][]{{93.3 / 12, 13.5 - (101 / Math.sqrt(3) / 24)},{93.3 / 12,13.5 + (101 / Math.sqrt(3) / 24)}}, Color.ORANGE);
-      m_pathPlot.addData(new double[][]{{93.3 / 12, 13.5 + (101 / Math.sqrt(3) /24)}, {(93.3 / 12) + (101 / 24), 13.5 + (101 / Math.sqrt(3) /12)}},Color.ORANGE);
-      m_pathPlot.addData(new double[][]{{93.3 / 12, 13.5 - (101 / Math.sqrt(3) /24)}, {(93.3 / 12) + (101 / 24), 13.5 - (101 / Math.sqrt(3) /12)}},Color.ORANGE);
-      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (101 / 24) , 13.5 + (101 / Math.sqrt(3) /12)},{(93.3 / 12) + (101 / 12) , 13.5 + (101 / Math.sqrt(3) / 24)}}, Color.ORANGE);
-      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (101 / 24) , 13.5 - (101 / Math.sqrt(3) /12)},{(93.3 / 12) + (101 / 12) , 13.5 - (101 / Math.sqrt(3) / 24)}}, Color.ORANGE);
-      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (101 / 12), 13.5 - (101 / Math.sqrt(3) / 24)},{(93.3 / 12) + (101 / 12),13.5 + (101 / Math.sqrt(3) / 24)}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{93.3 / 12, 12 - (70.5 / 24)},{93.3 / 12,12 + (70.5 / 24)}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{93.3 / 12, 12 + (70.5 /24)}, {(93.3 / 12) + (70.5 * Math.sqrt(3) / 24), 12 + (70.5 /12)}},Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{93.3 / 12, 12 - (70.5 /24)}, {(93.3 / 12) + (70.5 * Math.sqrt(3) / 24), 12 - (70.5 /12)}},Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 24) , 12 + (70.5 /12)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12) , 12 + (70.5 / 24)}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 24) , 12 - (70.5 /12)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12) , 12 - (70.5 / 24)}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12), 12 - (70.5 / 24)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12),12 + (70.5 / 24)}}, Color.ORANGE);
       m_pathPlot.addData(new double[][]{{0,42 / Math.sqrt(2) / 12}, { 42 / Math.sqrt(2) / 12, 0}}, Color.ORANGE  );
       m_pathPlot.addData(new double[][]{{0, 73 * Math.sqrt(2) / 12},{73 * Math.sqrt(2) / 12, 0}}, Color.YELLOW);
       m_pathPlot.addData(new double[][]{{0,(21 * Math.sqrt(3) / 12) + 27 - 165 /(12 * Math.sqrt(3))}, {102.5 / 12, 27}}, Color.ORANGE);
