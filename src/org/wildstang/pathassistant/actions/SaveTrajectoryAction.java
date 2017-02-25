@@ -3,10 +3,12 @@ package org.wildstang.pathassistant.actions;
 import java.awt.event.ActionEvent;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
@@ -48,28 +50,18 @@ public class SaveTrajectoryAction extends AbstractAction
 //         else
 //         {
             fc = new JFileChooser();
-            fc.setCurrentDirectory(new File("C:/Users/Janine/Documents/2017_ROBOT_PATHS"));
-            fc.setDialogTitle("Save Right Path");
+            fc.setCurrentDirectory(new File("C:/Users/Janine/Documents/2017_ROBOT_PATHS")); //Unique to user
+            fc.setDialogTitle("Save Path");
 //         }
-         int returnValRight = fc.showSaveDialog(PathAssistant.m_applicationController.getAppFrame());
+         int returnVal = fc.showSaveDialog(PathAssistant.m_applicationController.getAppFrame());
 
-         if (returnValRight == JFileChooser.APPROVE_OPTION) {
-             file_right = fc.getSelectedFile();
+         if (returnVal == JFileChooser.APPROVE_OPTION) {
+             file_right = new File(fc.getSelectedFile().getAbsolutePath() + ".right");
+             file_left = new File(fc.getSelectedFile().getAbsolutePath() + ".left");
              //This is where a real application would open the file.
          } else {
          }
-         
-         fc = new JFileChooser();
-         fc.setCurrentDirectory(new File("C:/Users/Janine/Documents/2017_ROBOT_PATHS"));
-         fc.setDialogTitle("Save Left Path");
-//       }
-       int returnValLeft = fc.showSaveDialog(PathAssistant.m_applicationController.getAppFrame());
 
-       if (returnValLeft == JFileChooser.APPROVE_OPTION) {
-           file_left = fc.getSelectedFile();
-           //This is where a real application would open the file.
-       } else {
-       }
          
          
 //      }
@@ -197,5 +189,40 @@ public class SaveTrajectoryAction extends AbstractAction
       
       return result;
    }
+   
+   private static void copyFileUsingFileStreams(File source, File dest)
+   
+           throws IOException {
+   
+       InputStream input = null;
+   
+       OutputStream output = null;
+   
+       try {
+   
+           input = new FileInputStream(source);
+   
+           output = new FileOutputStream(dest);
+   
+           byte[] buf = new byte[1024];
+   
+           int bytesRead;
+  
+           while ((bytesRead = input.read(buf)) > 0) {
+   
+               output.write(buf, 0, bytesRead);
+   
+           }
+   
+       } finally {
+   
+           input.close();
+   
+           output.close();
+   
+       }
+   
+   }
+
    
 }

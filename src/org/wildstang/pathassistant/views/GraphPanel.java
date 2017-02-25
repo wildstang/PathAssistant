@@ -43,7 +43,7 @@ public class GraphPanel extends JPanel
       add(m_velocityPlot, BorderLayout.SOUTH);
    }
    
-   public void update()
+   public void update(boolean hasPathToRead)
    {
       FalconPathPlanner pathGenerator = PathAssistant.m_applicationController.getPathGenerator();
       Path plannedPath = new Path(PathAssistant.m_applicationController.getWaypointModel().getRawData());
@@ -64,12 +64,13 @@ public class GraphPanel extends JPanel
       plannedPath.setRight(rightWheel);
       plannedPath.setSmoothPath(center);
 
-      double[][] readPath = PathAssistant.m_applicationController.getPathFromFile(plannedPath.getSmoothPath().getCoords()[0], 0);
+      
+      
 
-//      m_velocityPlot = new FalconLinePlot(pathGenerator.smoothCenterVelocity,null,Color.blue);
+      //m_velocityPlot = new FalconLinePlot(pathGenerator.smoothCenterVelocity,null,Color.blue);
       
       m_velocityPlot.clearAll();
-      m_velocityPlot.addData(pathGenerator.smoothCenterVelocity[0], pathGenerator.smoothCenterVelocity[1], null, Color.blue);
+      //m_velocityPlot.addData(pathGenerator.smoothCenterVelocity[0], pathGenerator.smoothCenterVelocity[1], null, Color.blue);
       m_velocityPlot.yGridOn();
       m_velocityPlot.xGridOn();
       m_velocityPlot.setYLabel("Velocity (ft/sec)");
@@ -77,7 +78,7 @@ public class GraphPanel extends JPanel
       m_velocityPlot.setTitle("Velocity Profile for Left and Right Wheels \n Left = Cyan, Right = Magenta");
       m_velocityPlot.addData(plannedPath.getRight().getVelocities(), Color.magenta);
       m_velocityPlot.addData(plannedPath.getLeft().getVelocities(), Color.cyan);
-
+      System.out.println(plannedPath.getLeft().getVelocities()[3][1]);
       m_velocityPlot.updateUI();
       
 //      m_pathPlot = new FalconLinePlot(pathGenerator.nodeOnlyPath,Color.blue,Color.green);
@@ -94,10 +95,13 @@ public class GraphPanel extends JPanel
       m_pathPlot.setYTic(0, 27, 1);
       m_pathPlot.addData(plannedPath.getSmoothPath().getCoords(), Color.red, Color.blue);
       //Plot actual path we got (if we have one)
+      
+      if (hasPathToRead) {
+      double[][] readPath = PathAssistant.m_applicationController.getPathFromFile(plannedPath.getSmoothPath().getCoords()[0], 0);
+      
       if (readPath != null) {
     	  m_pathPlot.addData(readPath, Color.GREEN);
-    	  //m_pathPlot.addData(readPath.getRight().getCoords(), Color.WHITE);
-    	  //m_pathPlot.addData(readPath.getLeft().getCoords(), Color.WHITE);
+      }
       }
       
       //Field Blockages
