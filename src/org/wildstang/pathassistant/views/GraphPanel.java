@@ -29,10 +29,13 @@ public class GraphPanel extends JPanel
       m_pathPlot = new FalconLinePlot(new double[0][0]);
       m_velocityPlot = new FalconLinePlot(new double[0][0]);
       
-      m_pathPlot.setMinimumSize(new Dimension(700, 300));
-      m_velocityPlot.setMinimumSize(new Dimension(700, 300));
-      m_pathPlot.setPreferredSize(new Dimension(700, 300));
-      m_velocityPlot.setPreferredSize(new Dimension(700, 300));
+      m_pathPlot.setMinimumSize(new Dimension(700, 350));
+      m_velocityPlot.setMinimumSize(new Dimension(700, 250));
+      m_pathPlot.setPreferredSize(new Dimension(700, 350));
+      m_velocityPlot.setPreferredSize(new Dimension(700, 250));
+      
+      m_pathPlot.setFocusable(false);
+      m_velocityPlot.setFocusable(false);
       
       setLayout(new BorderLayout());
       
@@ -40,10 +43,10 @@ public class GraphPanel extends JPanel
       add(m_velocityPlot, BorderLayout.SOUTH);
    }
    
-   public void update()
+   public void update(boolean hasPathToRead)
    {
       FalconPathPlanner pathGenerator = PathAssistant.m_applicationController.getPathGenerator();
-      Path path = new Path(PathAssistant.m_applicationController.getWaypointModel().getRawData());
+      Path plannedPath = new Path(PathAssistant.m_applicationController.getWaypointModel().getRawData());
 
       Track leftWheel = new Track();
       Track rightWheel = new Track();
@@ -57,23 +60,25 @@ public class GraphPanel extends JPanel
       
       center.setCoords(pathGenerator.smoothPath);
       
-      path.setLeft(leftWheel);
-      path.setRight(rightWheel);
-      path.setSmoothPath(center);
+      plannedPath.setLeft(leftWheel);
+      plannedPath.setRight(rightWheel);
+      plannedPath.setSmoothPath(center);
 
+      
+      
 
-//      m_velocityPlot = new FalconLinePlot(pathGenerator.smoothCenterVelocity,null,Color.blue);
+      //m_velocityPlot = new FalconLinePlot(pathGenerator.smoothCenterVelocity,null,Color.blue);
       
       m_velocityPlot.clearAll();
-      m_velocityPlot.addData(pathGenerator.smoothCenterVelocity[0], pathGenerator.smoothCenterVelocity[1], null, Color.blue);
+      //m_velocityPlot.addData(pathGenerator.smoothCenterVelocity[0], pathGenerator.smoothCenterVelocity[1], null, Color.blue);
       m_velocityPlot.yGridOn();
       m_velocityPlot.xGridOn();
       m_velocityPlot.setYLabel("Velocity (ft/sec)");
       m_velocityPlot.setXLabel("time (seconds)");
       m_velocityPlot.setTitle("Velocity Profile for Left and Right Wheels \n Left = Cyan, Right = Magenta");
-      m_velocityPlot.addData(path.getRight().getVelocities(), Color.magenta);
-      m_velocityPlot.addData(path.getLeft().getVelocities(), Color.cyan);
-
+      m_velocityPlot.addData(plannedPath.getRight().getVelocities(), Color.magenta);
+      m_velocityPlot.addData(plannedPath.getLeft().getVelocities(), Color.cyan);
+      System.out.println(plannedPath.getLeft().getVelocities()[3][1]);
       m_velocityPlot.updateUI();
       
 //      m_pathPlot = new FalconLinePlot(pathGenerator.nodeOnlyPath,Color.blue,Color.green);
@@ -87,10 +92,32 @@ public class GraphPanel extends JPanel
 
       //force graph to show 1/2 field dimensions of 24ft x 27 feet
       m_pathPlot.setXTic(0, 27, 1);
-      m_pathPlot.setYTic(0, 24, 1);
-      m_pathPlot.addData(path.getSmoothPath().getCoords(), Color.red, Color.blue);
-
-
+      m_pathPlot.setYTic(0, 27, 1);
+      m_pathPlot.addData(plannedPath.getSmoothPath().getCoords(), Color.red, Color.blue);
+      //Plot actual path we got (if we have one)
+      
+      if (hasPathToRead) {
+      double[][] readPath = PathAssistant.m_applicationController.getPathFromFile(plannedPath.getSmoothPath().getCoords()[0], 0);
+      
+      if (readPath != null) {
+    	  m_pathPlot.addData(readPath, Color.GREEN);
+      }
+      }
+      
+      //Field Blockages
+      m_pathPlot.addData(new double[][]{{93.3 / 12, 12 - (70.5 / 24)},{93.3 / 12,12 + (70.5 / 24)}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{93.3 / 12, 12 + (70.5 /24)}, {(93.3 / 12) + (70.5 * Math.sqrt(3) / 24), 12 + (70.5 /12)}},Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{93.3 / 12, 12 - (70.5 /24)}, {(93.3 / 12) + (70.5 * Math.sqrt(3) / 24), 12 - (70.5 /12)}},Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 24) , 12 + (70.5 /12)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12) , 12 + (70.5 / 24)}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 24) , 12 - (70.5 /12)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12) , 12 - (70.5 / 24)}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12), 12 - (70.5 / 24)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12),12 + (70.5 / 24)}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{0,42 / Math.sqrt(2) / 12}, { 42 / Math.sqrt(2) / 12, 0}}, Color.ORANGE  );
+      m_pathPlot.addData(new double[][]{{0, 73 * Math.sqrt(2) / 12},{73 * Math.sqrt(2) / 12, 0}}, Color.YELLOW);
+      m_pathPlot.addData(new double[][]{{0,(21 * Math.sqrt(3) / 12) + 27 - 165 /(12 * Math.sqrt(3))}, {102.5 / 12, 27}}, Color.ORANGE);
+      m_pathPlot.addData(new double[][]{{0, 27 - 165 /(12 * Math.sqrt(3))},{165.5 / 12, 27}}, Color.YELLOW);
+      m_pathPlot.addData(new double[][]{{6.5417, 0}, {8.75, 0}}, new Color(231, 23, 112));
+      
+      
       m_pathPlot.addData(leftWheel.getCoords(), Color.magenta);
       m_pathPlot.addData(rightWheel.getCoords(), Color.magenta);
       

@@ -3,10 +3,12 @@ package org.wildstang.pathassistant.actions;
 import java.awt.event.ActionEvent;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
@@ -32,8 +34,10 @@ public class SaveTrajectoryAction extends AbstractAction
    @Override
    public void actionPerformed(ActionEvent p_arg0)
    {
-      File file = null;
-      
+	  
+      File file_right = null;
+      File file_left = null;
+      boolean isPathBackwards = PathAssistant.m_applicationController.getAppFrame().getDataPanel().isBackwards(); 
 //      if (m_controller.getCurrentViewFile() == null)
 //      {
          // Show file selection dialog
@@ -46,30 +50,41 @@ public class SaveTrajectoryAction extends AbstractAction
 //         else
 //         {
             fc = new JFileChooser();
+            fc.setCurrentDirectory(new File("C:/Users/Janine/Documents/2017_ROBOT_PATHS")); //Unique to user
+            fc.setDialogTitle("Save Path");
 //         }
          int returnVal = fc.showSaveDialog(PathAssistant.m_applicationController.getAppFrame());
 
          if (returnVal == JFileChooser.APPROVE_OPTION) {
-             file = fc.getSelectedFile();
+             file_right = new File(fc.getSelectedFile().getAbsolutePath() + ".right");
+             file_left = new File(fc.getSelectedFile().getAbsolutePath() + ".left");
              //This is where a real application would open the file.
          } else {
          }
+
+         
+         
 //      }
       
       
       // Save the file
       FileOutputStream fos = null;
       
-      if (file != null)
+      if (file_right != null && file_left != null)
       {
          try
          {
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            BufferedOutputStream bos_right = new BufferedOutputStream(new FileOutputStream(file_right));
+            BufferedOutputStream bos_left = new BufferedOutputStream(new FileOutputStream(file_left));
             
-            String output = formatTrajectoryOutput(PathAssistant.m_applicationController.getPathGenerator());
-            bos.write(output.getBytes());
-            bos.flush();
-            bos.close();
+            String output_right = formatTrajectoryOutput(PathAssistant.m_applicationController.getPathGenerator(), true, isPathBackwards);
+            String output_left = formatTrajectoryOutput(PathAssistant.m_applicationController.getPathGenerator(), false, isPathBackwards);
+            bos_right.write(output_right.getBytes());
+            bos_right.flush();
+            bos_right.close();
+            bos_left.write(output_left.getBytes());
+            bos_left.flush();
+            bos_left.close();
          }
          catch (FileNotFoundException e1)
          {
@@ -85,7 +100,7 @@ public class SaveTrajectoryAction extends AbstractAction
    }
 
    
-   private String formatTrajectoryOutput(FalconPathPlanner generator)
+   private String formatTrajectoryOutput(FalconPathPlanner generator, boolean isRight, boolean isBackwards)
    {
       StringBuffer outputBuf = new StringBuffer();
       StringBuffer leftBuf = new StringBuffer();
@@ -106,14 +121,30 @@ public class SaveTrajectoryAction extends AbstractAction
       {
          m_cumulativeLeftDist += distToRotations(generator.leftPath[i], generator.leftPath[i-1]);
          m_cumulativeRightDist += distToRotations(generator.rightPath[i], generator.rightPath[i-1]);
-         leftBuf.append(m_cumulativeLeftDist + "," + velPerSecToRPM(generator.smoothLeftVelocity[i][1]) + "," + nearest10((generator.smoothLeftVelocity[i][0] - generator.smoothLeftVelocity[i-1][0])) + "\n");
-         rightBuf.append(m_cumulativeRightDist + "," + velPerSecToRPM(generator.smoothRightVelocity[i][1]) + "," + nearest10((generator.smoothRightVelocity[i][0] - generator.smoothRightVelocity[i-1][0])) + "\n");
+         
+         //int backwards = (isBackwards == true ? -1 : 1);
+         if (isBackwards) {
+        	 //***Might need to make distance negative
+        	 leftBuf.append(m_cumulativeRightDist + "," + (velPerSecToRPM(generator.smoothRightVelocity[i][1]) * -1) + "," + nearest10((generator.smoothLeftVelocity[i][0] - generator.smoothLeftVelocity[i-1][0])) + "\n");
+        	 rightBuf.append(m_cumulativeLeftDist + "," + (velPerSecToRPM(generator.smoothLeftVelocity[i][1]) * -1) + "," + nearest10((generator.smoothRightVelocity[i][0] - generator.smoothRightVelocity[i-1][0])) + "\n");
+      
+         } else {
+        	 leftBuf.append(m_cumulativeLeftDist + "," + (velPerSecToRPM(generator.smoothLeftVelocity[i][1])) + "," + nearest10((generator.smoothLeftVelocity[i][0] - generator.smoothLeftVelocity[i-1][0])) + "\n");
+        	 rightBuf.append(m_cumulativeRightDist + "," + (velPerSecToRPM(generator.smoothRightVelocity[i][1])) + "," + nearest10((generator.smoothRightVelocity[i][0] - generator.smoothRightVelocity[i-1][0])) + "\n");
+         }
       }
       
       // Add the two together
-      outputBuf.append(leftBuf.toString());
-      outputBuf.append("-\n");
-      outputBuf.append(rightBuf.toString());
+//      outputBuf.append(leftBuf.toString());   OLD STUFF
+//      outputBuf.append("-\n");
+//      outputBuf.append(rightBuf.toString());
+      
+      //NEW STUFF
+      if (isRight) {
+    	  outputBuf.append(rightBuf.toString());
+      } else {
+    	  outputBuf.append(leftBuf.toString());
+      }
       
       return outputBuf.toString();
    }
@@ -158,5 +189,40 @@ public class SaveTrajectoryAction extends AbstractAction
       
       return result;
    }
+   
+   private static void copyFileUsingFileStreams(File source, File dest)
+   
+           throws IOException {
+   
+       InputStream input = null;
+   
+       OutputStream output = null;
+   
+       try {
+   
+           input = new FileInputStream(source);
+   
+           output = new FileOutputStream(dest);
+   
+           byte[] buf = new byte[1024];
+   
+           int bytesRead;
+  
+           while ((bytesRead = input.read(buf)) > 0) {
+   
+               output.write(buf, 0, bytesRead);
+   
+           }
+   
+       } finally {
+   
+           input.close();
+   
+           output.close();
+   
+       }
+   
+   }
+
    
 }

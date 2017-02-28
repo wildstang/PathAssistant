@@ -1,12 +1,14 @@
 package org.wildstang.pathassistant.data;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
 public class WaypointModel extends AbstractTableModel
 {
-
+	
    private ArrayList<ArrayList<Double>> m_data = new ArrayList<ArrayList<Double>>();
 
    @Override
@@ -88,9 +90,16 @@ public class WaypointModel extends AbstractTableModel
       m_data.add(temp);
 
       fireTableRowsInserted(0, getRowCount());
-
+      
    }
 
+   public void deleteRow()
+   {
+      m_data.remove(getRowCount() - 1);
+      
+      fireTableRowsDeleted(0, getRowCount());
+   }
+   
    public double[][] getRawData()
    {
       double[][] data = new double[m_data.size()][m_data.get(0).size()];
@@ -106,5 +115,4 @@ public class WaypointModel extends AbstractTableModel
       
       return data;
    }
-
 }
