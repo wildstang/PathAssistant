@@ -2,15 +2,19 @@ package org.wildstang.pathassistant.data;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-public class WaypointModel extends AbstractTableModel
+public class WaypointModel extends AbstractTableModel implements Serializable
 {
 	
    private ArrayList<ArrayList<Double>> m_data = new ArrayList<ArrayList<Double>>();
 
+   private double m_totalTime;
+   private double m_timeStep;
+   
    @Override
    public int getColumnCount()
    {
@@ -115,4 +119,26 @@ public class WaypointModel extends AbstractTableModel
       
       return data;
    }
+
+   public double getTotalTime()
+   {
+      return m_totalTime;
+   }
+
+   public void setTotalTime(double p_totalTime)
+   {
+      m_totalTime = p_totalTime;
+   }
+
+   public double getTimeStep()
+   {
+      return m_timeStep;
+   }
+
+   public void setTimeStep(double p_timeStep)
+   {
+      m_timeStep = p_timeStep;
+   }
+   
+   
 }
