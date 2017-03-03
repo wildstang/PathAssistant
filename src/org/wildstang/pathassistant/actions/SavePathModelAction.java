@@ -55,8 +55,7 @@ public class SavePathModelAction extends AbstractAction
          try
          {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
-            
-            oos.writeObject(PathAssistant.m_applicationController.getWaypointModel());
+            PathAssistant.m_applicationController.getWaypointModel().writeObject(oos);
             oos.flush();
             oos.close();
          }

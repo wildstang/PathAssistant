@@ -113,9 +113,9 @@ public class ApplicationController
       return m_waypointModel;
    }
    
-   public void updateModel(WaypointModel p_model)
+   public void updateModel()//WaypointModel p_model)
    {
-      m_waypointModel = p_model;
+//      m_waypointModel = p_model;
       m_frame.getDataPanel().modelUpdated();
    }
 

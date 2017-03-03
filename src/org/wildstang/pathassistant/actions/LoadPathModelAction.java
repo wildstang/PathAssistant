@@ -59,12 +59,15 @@ public class LoadPathModelAction extends AbstractAction
          {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
             
-            WaypointModel model = (WaypointModel)ois.readObject();
+//            WaypointModel model = (WaypointModel)ois.readObject();
+//            ois.close();
+//            if (model != null)
+//            {
+//               PathAssistant.m_applicationController.updateModel(model);
+//            }
+            PathAssistant.m_applicationController.getWaypointModel().readObject(ois);
+            PathAssistant.m_applicationController.updateModel();
             ois.close();
-            if (model != null)
-            {
-               PathAssistant.m_applicationController.updateModel(model);
-            }
          }
          catch (FileNotFoundException e1)
          {

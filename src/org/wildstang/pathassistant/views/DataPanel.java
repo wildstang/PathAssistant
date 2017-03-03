@@ -104,6 +104,7 @@ public class DataPanel extends JPanel
    public void modelUpdated()
    {
       m_waypointTable.setModel(PathAssistant.m_applicationController.getWaypointModel());
+      PathAssistant.m_applicationController.getWaypointModel().modelUpdated();
       totalTime.setText(String.valueOf(((WaypointModel)m_waypointTable.getModel()).getTotalTime()));
       deltaTime.setText(String.valueOf(((WaypointModel)m_waypointTable.getModel()).getTimeStep()));
    }

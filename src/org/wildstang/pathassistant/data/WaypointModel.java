@@ -1,7 +1,6 @@
 package org.wildstang.pathassistant.data;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -140,5 +139,23 @@ public class WaypointModel extends AbstractTableModel implements Serializable
       m_timeStep = p_timeStep;
    }
    
+   public void writeObject(java.io.ObjectOutputStream stream)
+           throws IOException {
+       stream.writeObject(m_data);
+       stream.writeDouble(m_totalTime);
+       stream.writeDouble(m_timeStep);
+   }
+   
+   public void readObject(java.io.ObjectInputStream stream)
+           throws IOException, ClassNotFoundException {
+       m_data = (ArrayList<ArrayList<Double>>) stream.readObject();
+       m_totalTime = stream.readDouble();
+       m_timeStep = stream.readDouble();
+   }
+   
+   public void modelUpdated()
+   {
+	   fireTableDataChanged();
+   }
    
 }
