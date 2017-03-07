@@ -52,7 +52,7 @@ public class DataPanel extends JPanel
       pathBackwards = new JCheckBox(" Backwards");
       JButton generateButton = new JButton(new GeneratePathAction("Generate path"));
       JButton saveButton = new JButton(new SaveTrajectoryAction("Save trajectory"));
-      JButton loadButton = new JButton(new LoadPathAction("Load path"));
+      JButton loadButton = new JButton(new LoadPathAction("Load runtime path"));
       JButton saveWaypointsButton = new JButton(new SavePathModelAction("Save path model"));
       JButton loadWaypointsButton = new JButton(new LoadPathModelAction("Load path model"));
       totalTimeLabel = new JLabel("Total time");
