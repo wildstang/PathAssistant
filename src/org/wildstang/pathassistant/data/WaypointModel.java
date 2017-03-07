@@ -1,16 +1,19 @@
 package org.wildstang.pathassistant.data;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-public class WaypointModel extends AbstractTableModel
+public class WaypointModel extends AbstractTableModel implements Serializable
 {
 	
    private ArrayList<ArrayList<Double>> m_data = new ArrayList<ArrayList<Double>>();
 
+   private double m_totalTime;
+   private double m_timeStep;
+   
    @Override
    public int getColumnCount()
    {
@@ -115,4 +118,44 @@ public class WaypointModel extends AbstractTableModel
       
       return data;
    }
+
+   public double getTotalTime()
+   {
+      return m_totalTime;
+   }
+
+   public void setTotalTime(double p_totalTime)
+   {
+      m_totalTime = p_totalTime;
+   }
+
+   public double getTimeStep()
+   {
+      return m_timeStep;
+   }
+
+   public void setTimeStep(double p_timeStep)
+   {
+      m_timeStep = p_timeStep;
+   }
+   
+   public void writeObject(java.io.ObjectOutputStream stream)
+           throws IOException {
+       stream.writeObject(m_data);
+       stream.writeDouble(m_totalTime);
+       stream.writeDouble(m_timeStep);
+   }
+   
+   public void readObject(java.io.ObjectInputStream stream)
+           throws IOException, ClassNotFoundException {
+       m_data = (ArrayList<ArrayList<Double>>) stream.readObject();
+       m_totalTime = stream.readDouble();
+       m_timeStep = stream.readDouble();
+   }
+   
+   public void modelUpdated()
+   {
+	   fireTableDataChanged();
+   }
+   
 }

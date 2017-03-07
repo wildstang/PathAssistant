@@ -14,8 +14,11 @@ import javax.swing.JTextField;
 
 import org.wildstang.pathassistant.actions.GeneratePathAction;
 import org.wildstang.pathassistant.actions.LoadPathAction;
+import org.wildstang.pathassistant.actions.LoadPathModelAction;
+import org.wildstang.pathassistant.actions.SavePathModelAction;
 import org.wildstang.pathassistant.actions.SaveTrajectoryAction;
 import org.wildstang.pathassistant.app.PathAssistant;
+import org.wildstang.pathassistant.data.WaypointModel;
 
 public class DataPanel extends JPanel
 {
@@ -50,6 +53,8 @@ public class DataPanel extends JPanel
       JButton generateButton = new JButton(new GeneratePathAction("Generate path"));
       JButton saveButton = new JButton(new SaveTrajectoryAction("Save trajectory"));
       JButton loadButton = new JButton(new LoadPathAction("Load path"));
+      JButton saveWaypointsButton = new JButton(new SavePathModelAction("Save path model"));
+      JButton loadWaypointsButton = new JButton(new LoadPathModelAction("Load path model"));
       totalTimeLabel = new JLabel("Total time");
       deltaTimeLabel = new JLabel("Delta time (ms)");
       totalTime = new JTextField(8);
@@ -58,7 +63,7 @@ public class DataPanel extends JPanel
       deltaTime.setText("20");
       generateButton.setFocusable(false);
       saveButton.setFocusable(false);
-      buttonPanel.setLayout(new GridLayout(8,1));
+      buttonPanel.setLayout(new GridLayout(12,1));
       buttonPanel.add(totalTimeLabel);
       buttonPanel.add(totalTime);
       buttonPanel.add(deltaTimeLabel);
@@ -66,6 +71,8 @@ public class DataPanel extends JPanel
       buttonPanel.add(pathBackwards);
       buttonPanel.add(generateButton);
       buttonPanel.add(loadButton);
+      buttonPanel.add(saveWaypointsButton);
+      buttonPanel.add(loadWaypointsButton);
       buttonPanel.add(saveButton);
       add(buttonPanel, BorderLayout.SOUTH);
    }
@@ -92,6 +99,14 @@ public class DataPanel extends JPanel
    
    public JTable getWaypointTable() {
 	   return m_waypointTable;
+   }
+   
+   public void modelUpdated()
+   {
+      m_waypointTable.setModel(PathAssistant.m_applicationController.getWaypointModel());
+      PathAssistant.m_applicationController.getWaypointModel().modelUpdated();
+      totalTime.setText(String.valueOf(((WaypointModel)m_waypointTable.getModel()).getTotalTime()));
+      deltaTime.setText(String.valueOf(((WaypointModel)m_waypointTable.getModel()).getTimeStep()));
    }
 
 }

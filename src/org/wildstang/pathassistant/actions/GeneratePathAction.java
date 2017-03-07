@@ -26,6 +26,10 @@ public class GeneratePathAction extends AbstractAction
       FalconPathPlanner generator = PathAssistant.m_applicationController.getPathGenerator();
       WaypointModel model = PathAssistant.m_applicationController.getWaypointModel();
       
+      // Now that we're generating the model, set the total time and step time on the model as part of the path generation state
+      model.setTotalTime(PathAssistant.m_applicationController.getAppFrame().getDataPanel().getTotalTime());
+      model.setTimeStep(PathAssistant.m_applicationController.getAppFrame().getDataPanel().getDeltaTime());
+      
       Path path = new Path(model.getRawData());
       generator.reset();
       generator.init(path);      
@@ -34,8 +38,8 @@ public class GeneratePathAction extends AbstractAction
       double timeStep = 0.02; //period of control loop on Rio, seconds
       double robotTrackWidth = 2.5; //distance between left and right wheels, feet
 
-      totalTime = PathAssistant.m_applicationController.getAppFrame().getDataPanel().getTotalTime();
-      timeStep = PathAssistant.m_applicationController.getAppFrame().getDataPanel().getDeltaTime()/1000;
+      totalTime = model.getTotalTime();
+      timeStep = model.getTimeStep() / 1000;
       
       if (totalTime == 0) {
     	  totalTime = 5;
