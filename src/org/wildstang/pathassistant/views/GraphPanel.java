@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import org.wildstang.pathassistant.app.PathAssistant;
 import org.wildstang.pathassistant.data.Path;
@@ -29,18 +30,30 @@ public class GraphPanel extends JPanel
       m_pathPlot = new FalconLinePlot(new double[0][0]);
       m_velocityPlot = new FalconLinePlot(new double[0][0]);
       
-      m_pathPlot.setMinimumSize(new Dimension(700, 350));
-      m_velocityPlot.setMinimumSize(new Dimension(700, 250));
-      m_pathPlot.setPreferredSize(new Dimension(700, 350));
-      m_velocityPlot.setPreferredSize(new Dimension(700, 250));
-      
+      m_pathPlot.setMinimumSize(new Dimension(700, 600));
+      m_velocityPlot.setMinimumSize(new Dimension(700, 600));
+      m_pathPlot.setPreferredSize(new Dimension(700, 600));
+      m_velocityPlot.setPreferredSize(new Dimension(700, 600));
+
       m_pathPlot.setFocusable(false);
       m_velocityPlot.setFocusable(false);
       
       setLayout(new BorderLayout());
       
-      add(m_pathPlot, BorderLayout.NORTH);
-      add(m_velocityPlot, BorderLayout.SOUTH);
+      JTabbedPane tabs = new JTabbedPane();
+      
+      JPanel pathPanel = new JPanel();
+      pathPanel.add(m_pathPlot);
+      tabs.addTab("Path", pathPanel);
+      
+      JPanel velocityPanel = new JPanel();
+      velocityPanel.add(m_velocityPlot);
+      tabs.addTab("Velocity", velocityPanel);
+
+      JPanel diffPanel = new JPanel();
+      pathPanel.add(diffPanel);
+
+      add(tabs, BorderLayout.CENTER);
    }
    
    public void update(boolean hasPathToRead)
@@ -63,14 +76,9 @@ public class GraphPanel extends JPanel
       plannedPath.setLeft(leftWheel);
       plannedPath.setRight(rightWheel);
       plannedPath.setSmoothPath(center);
-
-      
-      
-
-      //m_velocityPlot = new FalconLinePlot(pathGenerator.smoothCenterVelocity,null,Color.blue);
       
       m_velocityPlot.clearAll();
-      //m_velocityPlot.addData(pathGenerator.smoothCenterVelocity[0], pathGenerator.smoothCenterVelocity[1], null, Color.blue);
+      m_velocityPlot.addData(pathGenerator.smoothCenterVelocity[0], pathGenerator.smoothCenterVelocity[1], null, Color.blue);
       m_velocityPlot.yGridOn();
       m_velocityPlot.xGridOn();
       m_velocityPlot.setYLabel("Velocity (ft/sec)");
@@ -78,12 +86,10 @@ public class GraphPanel extends JPanel
       m_velocityPlot.setTitle("Velocity Profile for Left and Right Wheels \n Left = Cyan, Right = Magenta");
       m_velocityPlot.addData(plannedPath.getRight().getVelocities(), Color.magenta);
       m_velocityPlot.addData(plannedPath.getLeft().getVelocities(), Color.cyan);
-      System.out.println(plannedPath.getLeft().getVelocities()[3][1]);
       m_velocityPlot.updateUI();
       
-//      m_pathPlot = new FalconLinePlot(pathGenerator.nodeOnlyPath,Color.blue,Color.green);
+
       m_pathPlot.clearAll();
-      
       m_pathPlot.yGridOn();
       m_pathPlot.xGridOn();
       m_pathPlot.setYLabel("Y (feet)");
@@ -96,12 +102,14 @@ public class GraphPanel extends JPanel
       m_pathPlot.addData(plannedPath.getSmoothPath().getCoords(), Color.red, Color.blue);
       //Plot actual path we got (if we have one)
       
-      if (hasPathToRead) {
-      double[][] readPath = PathAssistant.m_applicationController.getPathFromFile(plannedPath.getSmoothPath().getCoords()[0], 0);
-      
-      if (readPath != null) {
-    	  m_pathPlot.addData(readPath, Color.GREEN);
-      }
+      if (hasPathToRead)
+      {
+         double[][] readPath = PathAssistant.m_applicationController.getPathFromFile(plannedPath.getSmoothPath().getCoords()[0], 0);
+
+         if (readPath != null)
+         {
+            m_pathPlot.addData(readPath, Color.GREEN);
+         }
       }
       
       //Field Blockages
