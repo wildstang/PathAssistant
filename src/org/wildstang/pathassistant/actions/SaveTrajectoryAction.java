@@ -106,6 +106,9 @@ public class SaveTrajectoryAction extends AbstractAction
       StringBuffer leftBuf = new StringBuffer();
       StringBuffer rightBuf = new StringBuffer();
       
+      m_cumulativeLeftDist = 0;
+      m_cumulativeRightDist = 0;
+      
       int numPoints = generator.smoothLeftVelocity.length;
       
       // Velocity array: velocity[time][velocity]
