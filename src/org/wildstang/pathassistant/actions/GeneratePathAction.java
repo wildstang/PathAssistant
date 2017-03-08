@@ -29,6 +29,7 @@ public class GeneratePathAction extends AbstractAction
       // Now that we're generating the model, set the total time and step time on the model as part of the path generation state
       model.setTotalTime(PathAssistant.m_applicationController.getAppFrame().getDataPanel().getTotalTime());
       model.setTimeStep(PathAssistant.m_applicationController.getAppFrame().getDataPanel().getDeltaTime());
+      model.setBackwards(PathAssistant.m_applicationController.getAppFrame().getDataPanel().isBackwards());
       
       Path path = new Path(model.getRawData());
       generator.reset();

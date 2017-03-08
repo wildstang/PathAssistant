@@ -107,6 +107,7 @@ public class DataPanel extends JPanel
       PathAssistant.m_applicationController.getWaypointModel().modelUpdated();
       totalTime.setText(String.valueOf(((WaypointModel)m_waypointTable.getModel()).getTotalTime()));
       deltaTime.setText(String.valueOf(((WaypointModel)m_waypointTable.getModel()).getTimeStep()));
+      pathBackwards.setSelected(((WaypointModel)m_waypointTable.getModel()).isBackwards());
    }
 
 }
