@@ -32,8 +32,8 @@ public class DataPanel extends JPanel
    
    public DataPanel()
    {
-      setMinimumSize(new Dimension(150, 600));
-      setPreferredSize(new Dimension(150, 600));
+      setMinimumSize(new Dimension(150, 768));
+      setPreferredSize(new Dimension(150, 768));
       init();
    }
    

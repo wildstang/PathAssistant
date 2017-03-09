@@ -22,7 +22,7 @@ public class GraphPanel extends JPanel
    
    public GraphPanel()
    {
-      setPreferredSize(new Dimension(700, 600));
+      setPreferredSize(new Dimension(874, 768));
       init();
    }
    
@@ -32,12 +32,12 @@ public class GraphPanel extends JPanel
       m_velocityPlot = new FalconLinePlot(new double[0][0]);
       m_diffPlot = new FalconLinePlot(new double[0][0]);
       
-      m_pathPlot.setMinimumSize(new Dimension(700, 600));
-      m_velocityPlot.setMinimumSize(new Dimension(700, 600));
-      m_diffPlot.setMinimumSize(new Dimension(700, 600));
-      m_pathPlot.setPreferredSize(new Dimension(700, 600));
-      m_velocityPlot.setPreferredSize(new Dimension(700, 600));
-      m_diffPlot.setPreferredSize(new Dimension(700, 600));
+      m_pathPlot.setMinimumSize(new Dimension(874, 768));
+      m_velocityPlot.setMinimumSize(new Dimension(874, 768));
+      m_diffPlot.setMinimumSize(new Dimension(874, 768));
+      m_pathPlot.setPreferredSize(new Dimension(874, 768));
+      m_velocityPlot.setPreferredSize(new Dimension(874, 768));
+      m_diffPlot.setPreferredSize(new Dimension(874, 768));
 
       m_pathPlot.setFocusable(false);
       m_velocityPlot.setFocusable(false);
@@ -147,12 +147,13 @@ public class GraphPanel extends JPanel
    
    private void addFieldLines(FalconLinePlot p_plot)
    {
-      p_plot.addData(new double[][]{{93.3 / 12, 12 - (70.5 / 24)},{93.3 / 12,12 + (70.5 / 24)}}, Color.ORANGE);
-      p_plot.addData(new double[][]{{93.3 / 12, 12 + (70.5 /24)}, {(93.3 / 12) + (70.5 * Math.sqrt(3) / 24), 12 + (70.5 /12)}},Color.ORANGE);
-      p_plot.addData(new double[][]{{93.3 / 12, 12 - (70.5 /24)}, {(93.3 / 12) + (70.5 * Math.sqrt(3) / 24), 12 - (70.5 /12)}},Color.ORANGE);
-      p_plot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 24) , 12 + (70.5 /12)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12) , 12 + (70.5 / 24)}}, Color.ORANGE);
-      p_plot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 24) , 12 - (70.5 /12)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12) , 12 - (70.5 / 24)}}, Color.ORANGE);
-      p_plot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12), 12 - (70.5 / 24)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12),12 + (70.5 / 24)}}, Color.ORANGE);
+      p_plot.addData(new double[][]{{93.3 / 12, 13.5 - (70.5 / 24)},{93.3 / 12,13.5 + (70.5 / 24)}}, Color.GREEN);
+      p_plot.addData(new double[][]{{93.3 / 12, 13.5 + (70.5 /24)}, {(93.3 / 12) + (70.5 * Math.sqrt(3) / 24), 13.5 + (70.5 /12)}},Color.ORANGE);
+      p_plot.addData(new double[][]{{93.3 / 12, 13.5 - (70.5 /24)}, {(93.3 / 12) + (70.5 * Math.sqrt(3) / 24), 13.5 - (70.5 /12)}},Color.ORANGE);
+      p_plot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 24) , 13.5 + (70.5 /12)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12), 13.5 + (70.5 / 24)}}, Color.ORANGE);
+      p_plot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 24) , 13.5 - (70.5 /12)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12), 13.5 - (70.5 / 24)}}, Color.ORANGE);
+      p_plot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12), 13.5 - (70.5 / 24)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12), 13.5 + (70.5 / 24)}}, Color.ORANGE);
+
       p_plot.addData(new double[][]{{0,42 / Math.sqrt(2) / 12}, { 42 / Math.sqrt(2) / 12, 0}}, Color.ORANGE  );
       p_plot.addData(new double[][]{{0, 73 * Math.sqrt(2) / 12},{73 * Math.sqrt(2) / 12, 0}}, Color.YELLOW);
       p_plot.addData(new double[][]{{0,(21 * Math.sqrt(3) / 12) + 27 - 165 /(12 * Math.sqrt(3))}, {102.5 / 12, 27}}, Color.ORANGE);

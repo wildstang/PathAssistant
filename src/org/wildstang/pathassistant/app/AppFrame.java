@@ -32,8 +32,8 @@ public class AppFrame extends JFrame
    {
       setupWindowEvents();
       
-      setSize(800, 600);
-      
+      setSize(1024, 768);
+
       initComponents();
       
       pack();
