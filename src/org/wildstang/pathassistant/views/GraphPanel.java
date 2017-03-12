@@ -147,17 +147,25 @@ public class GraphPanel extends JPanel
    
    private void addFieldLines(FalconLinePlot p_plot)
    {
+      // Outside edge of airship platform
       p_plot.addData(new double[][]{{93.3 / 12, 13.5 - (70.5 / 24)},{93.3 / 12,13.5 + (70.5 / 24)}}, Color.GREEN);
       p_plot.addData(new double[][]{{93.3 / 12, 13.5 + (70.5 /24)}, {(93.3 / 12) + (70.5 * Math.sqrt(3) / 24), 13.5 + (70.5 /12)}},Color.ORANGE);
       p_plot.addData(new double[][]{{93.3 / 12, 13.5 - (70.5 /24)}, {(93.3 / 12) + (70.5 * Math.sqrt(3) / 24), 13.5 - (70.5 /12)}},Color.ORANGE);
       p_plot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 24) , 13.5 + (70.5 /12)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12), 13.5 + (70.5 / 24)}}, Color.ORANGE);
       p_plot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 24) , 13.5 - (70.5 /12)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12), 13.5 - (70.5 / 24)}}, Color.ORANGE);
       p_plot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12), 13.5 - (70.5 / 24)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12), 13.5 + (70.5 / 24)}}, Color.ORANGE);
+      
+      // Front line edge of airship
+      p_plot.addData(new double[][]{{114.3 / 12, 13.5 - (70.5 / 24)},{114.3 / 12,13.5 + (70.5 / 24)}}, Color.RED);
+      
+      // Baseline
+      p_plot.addData(new double[][]{{93.3 / 12, 0}, {93.3 / 12, 27}}, Color.GREEN);
+      
 
       p_plot.addData(new double[][]{{0,42 / Math.sqrt(2) / 12}, { 42 / Math.sqrt(2) / 12, 0}}, Color.ORANGE  );
       p_plot.addData(new double[][]{{0, 73 * Math.sqrt(2) / 12},{73 * Math.sqrt(2) / 12, 0}}, Color.YELLOW);
-      p_plot.addData(new double[][]{{0,(21 * Math.sqrt(3) / 12) + 27 - 165 /(12 * Math.sqrt(3))}, {102.5 / 12, 27}}, Color.ORANGE);
-      p_plot.addData(new double[][]{{0, 27 - 165 /(12 * Math.sqrt(3))},{165.5 / 12, 27}}, Color.YELLOW);
+      p_plot.addData(new double[][]{{0,(21 * Math.sqrt(3) / 12) + 27 - 165 /(12 * Math.sqrt(3))}, {102.5 / 12, 27}}, Color.red);
+      p_plot.addData(new double[][]{{0, 27 - 165 /(12 * Math.sqrt(3))},{165.5 / 12, 27}}, Color.BLUE);
       p_plot.addData(new double[][]{{6.5417, 0}, {8.75, 0}}, new Color(231, 23, 112));
 
    }
