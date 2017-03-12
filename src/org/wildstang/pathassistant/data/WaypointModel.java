@@ -13,6 +13,7 @@ public class WaypointModel extends AbstractTableModel implements Serializable
 
    private double m_totalTime;
    private double m_timeStep;
+   private boolean m_isBackwards;
    
    @Override
    public int getColumnCount()
@@ -139,11 +140,24 @@ public class WaypointModel extends AbstractTableModel implements Serializable
       m_timeStep = p_timeStep;
    }
    
+   
+   
+   public boolean isBackwards()
+   {
+      return m_isBackwards;
+   }
+
+   public void setBackwards(boolean p_isBackwards)
+   {
+      m_isBackwards = p_isBackwards;
+   }
+
    public void writeObject(java.io.ObjectOutputStream stream)
            throws IOException {
        stream.writeObject(m_data);
        stream.writeDouble(m_totalTime);
        stream.writeDouble(m_timeStep);
+       stream.writeBoolean(m_isBackwards);
    }
    
    public void readObject(java.io.ObjectInputStream stream)
@@ -151,6 +165,15 @@ public class WaypointModel extends AbstractTableModel implements Serializable
        m_data = (ArrayList<ArrayList<Double>>) stream.readObject();
        m_totalTime = stream.readDouble();
        m_timeStep = stream.readDouble();
+       try
+      {
+         m_isBackwards = stream.readBoolean();
+      }
+      catch (Exception e)
+      {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
    }
    
    public void modelUpdated()

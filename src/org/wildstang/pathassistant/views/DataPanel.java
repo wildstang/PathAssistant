@@ -32,8 +32,8 @@ public class DataPanel extends JPanel
    
    public DataPanel()
    {
-      setMinimumSize(new Dimension(150, 600));
-      setPreferredSize(new Dimension(150, 600));
+      setMinimumSize(new Dimension(150, 768));
+      setPreferredSize(new Dimension(150, 768));
       init();
    }
    
@@ -52,7 +52,7 @@ public class DataPanel extends JPanel
       pathBackwards = new JCheckBox(" Backwards");
       JButton generateButton = new JButton(new GeneratePathAction("Generate path"));
       JButton saveButton = new JButton(new SaveTrajectoryAction("Save trajectory"));
-      JButton loadButton = new JButton(new LoadPathAction("Load path"));
+      JButton loadButton = new JButton(new LoadPathAction("Load runtime path"));
       JButton saveWaypointsButton = new JButton(new SavePathModelAction("Save path model"));
       JButton loadWaypointsButton = new JButton(new LoadPathModelAction("Load path model"));
       totalTimeLabel = new JLabel("Total time");
@@ -107,6 +107,7 @@ public class DataPanel extends JPanel
       PathAssistant.m_applicationController.getWaypointModel().modelUpdated();
       totalTime.setText(String.valueOf(((WaypointModel)m_waypointTable.getModel()).getTotalTime()));
       deltaTime.setText(String.valueOf(((WaypointModel)m_waypointTable.getModel()).getTimeStep()));
+      pathBackwards.setSelected(((WaypointModel)m_waypointTable.getModel()).isBackwards());
    }
 
 }

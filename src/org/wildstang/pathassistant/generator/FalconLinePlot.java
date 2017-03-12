@@ -295,7 +295,7 @@ public class FalconLinePlot extends JPanel implements ClipboardOwner{
         g2.draw(xaxis);
         
         //find Max Y limits
-        //getMinMax(link);
+        getMinMax(link);
         
         //draw ticks
         drawYTickRange(g2, yaxis, 15, yMax, yMin);
@@ -331,7 +331,6 @@ public class FalconLinePlot extends JPanel implements ClipboardOwner{
     
     private void plot(Graphics2D g2)
     {
-    	
     	int w = super.getWidth();
     	int h = super.getHeight();
     	

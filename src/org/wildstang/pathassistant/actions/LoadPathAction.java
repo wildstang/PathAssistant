@@ -1,8 +1,10 @@
 package org.wildstang.pathassistant.actions;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 
 import javax.swing.AbstractAction;
+import javax.swing.JFileChooser;
 
 import org.wildstang.pathassistant.app.PathAssistant;
 import org.wildstang.pathassistant.data.Path;
@@ -22,31 +24,21 @@ public class LoadPathAction extends AbstractAction
    public void actionPerformed(ActionEvent p_arg0)
    {
       System.out.println("Generating path");
-//      FalconPathPlanner generator = PathAssistant.m_applicationController.getPathGenerator();
-//      WaypointModel model = PathAssistant.m_applicationController.getWaypointModel();
-//      
-//      Path path = new Path(model.getRawData());
-//      generator.reset();
-//      generator.init(path);      
-//      // TODO: Get these params from UI
-//      double totalTime = 5; //seconds
-//      double timeStep = 0.02; //period of control loop on Rio, seconds
-//      double robotTrackWidth = 2.5; //distance between left and right wheels, feet
-//
-//      totalTime = PathAssistant.m_applicationController.getAppFrame().getDataPanel().getTotalTime();
-//      timeStep = PathAssistant.m_applicationController.getAppFrame().getDataPanel().getDeltaTime()/1000;
-//      
-//      if (totalTime == 0) {
-//    	  totalTime = 5;
-//      }
-//      if (timeStep == 0) {
-//    	  timeStep = .02;
-//      }
-//      
-//      
-//      generator.calculate(totalTime, timeStep, robotTrackWidth);
+
+      File file = null;
+      JFileChooser fc = new JFileChooser();
+      fc.setDialogTitle("Get Robot Path");
+      int returnVal = fc.showSaveDialog(PathAssistant.m_applicationController.getAppFrame());
+      if (returnVal == JFileChooser.APPROVE_OPTION) {
+           file = fc.getSelectedFile();
+           //This is where a real application would open the file.
+       } else {
+         file = null;
+       }
       
-      PathAssistant.m_applicationController.getGraphPanel().update(true);
+      PathAssistant.m_applicationController.setRuntimePathFile(file);
+      
+      PathAssistant.m_applicationController.getGraphPanel().updateGraphs(true);
      
    }
 

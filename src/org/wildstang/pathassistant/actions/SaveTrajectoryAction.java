@@ -128,8 +128,8 @@ public class SaveTrajectoryAction extends AbstractAction
          //int backwards = (isBackwards == true ? -1 : 1);
          if (isBackwards) {
         	 //***Might need to make distance negative
-        	 leftBuf.append(m_cumulativeRightDist + "," + (velPerSecToRPM(generator.smoothRightVelocity[i][1]) * -1) + "," + nearest10((generator.smoothLeftVelocity[i][0] - generator.smoothLeftVelocity[i-1][0])) + "\n");
-        	 rightBuf.append(m_cumulativeLeftDist + "," + (velPerSecToRPM(generator.smoothLeftVelocity[i][1]) * -1) + "," + nearest10((generator.smoothRightVelocity[i][0] - generator.smoothRightVelocity[i-1][0])) + "\n");
+        	 leftBuf.append(-m_cumulativeRightDist + "," + (velPerSecToRPM(generator.smoothRightVelocity[i][1]) * -1) + "," + nearest10((generator.smoothLeftVelocity[i][0] - generator.smoothLeftVelocity[i-1][0])) + "\n");
+        	 rightBuf.append(-m_cumulativeLeftDist + "," + (velPerSecToRPM(generator.smoothLeftVelocity[i][1]) * -1) + "," + nearest10((generator.smoothRightVelocity[i][0] - generator.smoothRightVelocity[i-1][0])) + "\n");
       
          } else {
         	 leftBuf.append(m_cumulativeLeftDist + "," + (velPerSecToRPM(generator.smoothLeftVelocity[i][1])) + "," + nearest10((generator.smoothLeftVelocity[i][0] - generator.smoothLeftVelocity[i-1][0])) + "\n");
