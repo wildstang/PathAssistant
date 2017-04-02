@@ -28,7 +28,7 @@ public class LoadPathAction extends AbstractAction
       File file = null;
       JFileChooser fc = new JFileChooser();
       fc.setDialogTitle("Get Robot Path");
-      int returnVal = fc.showSaveDialog(PathAssistant.m_applicationController.getAppFrame());
+      int returnVal = fc.showOpenDialog(PathAssistant.m_applicationController.getAppFrame());
       if (returnVal == JFileChooser.APPROVE_OPTION) {
            file = fc.getSelectedFile();
            //This is where a real application would open the file.

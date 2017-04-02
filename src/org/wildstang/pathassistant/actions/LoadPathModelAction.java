@@ -28,33 +28,34 @@ public class LoadPathModelAction extends AbstractAction
    {
 	  
       File file = null;
-//      if (m_controller.getCurrentViewFile() == null)
-//      {
-         // Show file selection dialog
-//         File current = m_controller.getCurrentFile();
-         JFileChooser fc = null;
-//         if (current != null)
-//         {
-//            fc = new JFileChooser(current.getParentFile());
-//         }
-//         else
-//         {
-            fc = new JFileChooser();
-            fc.setDialogTitle("Load path waypoints");
-//         }
-         int returnVal = fc.showSaveDialog(PathAssistant.m_applicationController.getAppFrame());
 
-         if (returnVal == JFileChooser.APPROVE_OPTION) {
-             file = new File(fc.getSelectedFile().getAbsolutePath());
-             //This is where a real application would open the file.
-         } else {
-         }
-//      }
+      // Show file selection dialog
+      File current = PathAssistant.m_applicationController.getCurrentWaypointsFile();
+      JFileChooser fc = null;
+      if (current != null)
+      {
+         fc = new JFileChooser(current.getParentFile());
+      }
+      else
+      {
+         fc = new JFileChooser();
+      }
+
+      fc.setDialogTitle("Load path waypoints");
+
+      int returnVal = fc.showOpenDialog(PathAssistant.m_applicationController.getAppFrame());
+
+      if (returnVal == JFileChooser.APPROVE_OPTION) {
+          file = new File(fc.getSelectedFile().getAbsolutePath());
+          //This is where a real application would open the file.
+      } else {
+      }
       
       
-      // Save the file
+      // Read the file
       if (file != null)
       {
+         PathAssistant.m_applicationController.setCurrentWaypointsFile(file);
          try
          {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));

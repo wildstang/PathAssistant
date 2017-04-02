@@ -38,26 +38,27 @@ public class SaveTrajectoryAction extends AbstractAction
       File file_right = null;
       File file_left = null;
       boolean isPathBackwards = PathAssistant.m_applicationController.getAppFrame().getDataPanel().isBackwards(); 
-//      if (m_controller.getCurrentViewFile() == null)
-//      {
-         // Show file selection dialog
-//         File current = m_controller.getCurrentFile();
+
+      // Show file selection dialog
+         File current = PathAssistant.m_applicationController.getCurrentPathFile();
+
          JFileChooser fc = null;
-//         if (current != null)
-//         {
-//            fc = new JFileChooser(current.getParentFile());
-//         }
-//         else
-//         {
+         if (current != null)
+         {
+            fc = new JFileChooser(current.getParentFile());
+         }
+         else
+         {
             fc = new JFileChooser();
-            fc.setCurrentDirectory(new File("C:/Users/Janine/Documents/2017_ROBOT_PATHS")); //Unique to user
-            fc.setDialogTitle("Save Path");
-//         }
+         }
+         fc.setDialogTitle("Save Path");
+
          int returnVal = fc.showSaveDialog(PathAssistant.m_applicationController.getAppFrame());
 
          if (returnVal == JFileChooser.APPROVE_OPTION) {
-             file_right = new File(fc.getSelectedFile().getAbsolutePath() + ".right");
-             file_left = new File(fc.getSelectedFile().getAbsolutePath() + ".left");
+            String selectedPath = fc.getSelectedFile().getAbsolutePath();
+             file_right = new File(selectedPath + ".right");
+             file_left = new File(selectedPath + ".left");
              //This is where a real application would open the file.
          } else {
          }
@@ -72,6 +73,8 @@ public class SaveTrajectoryAction extends AbstractAction
       
       if (file_right != null && file_left != null)
       {
+         PathAssistant.m_applicationController.setCurrentPathFile(file_right);
+
          try
          {
             BufferedOutputStream bos_right = new BufferedOutputStream(new FileOutputStream(file_right));
