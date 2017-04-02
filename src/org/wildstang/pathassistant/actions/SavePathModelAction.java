@@ -25,20 +25,21 @@ public class SavePathModelAction extends AbstractAction
    {
 	  
       File file = null;
-//      if (m_controller.getCurrentViewFile() == null)
-//      {
-         // Show file selection dialog
-//         File current = m_controller.getCurrentFile();
+
+      // Show file selection dialog
+         File current = PathAssistant.m_applicationController.getCurrentWaypointsFile();
+         
          JFileChooser fc = null;
-//         if (current != null)
-//         {
-//            fc = new JFileChooser(current.getParentFile());
-//         }
-//         else
-//         {
+         if (current != null)
+         {
+            fc = new JFileChooser(current.getParentFile());
+         }
+         else
+         {
             fc = new JFileChooser();
-            fc.setDialogTitle("Save path waypoints");
-//         }
+         }
+         fc.setDialogTitle("Save path waypoints");
+
          int returnVal = fc.showSaveDialog(PathAssistant.m_applicationController.getAppFrame());
 
          if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -46,12 +47,13 @@ public class SavePathModelAction extends AbstractAction
              //This is where a real application would open the file.
          } else {
          }
-//      }
       
       
       // Save the file
       if (file != null)
       {
+         PathAssistant.m_applicationController.setCurrentWaypointsFile(file);
+         
          try
          {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));

@@ -21,6 +21,9 @@ public class ApplicationController
    private FalconPathPlanner m_pathGenerator = new FalconPathPlanner();
    private File m_runtimePath;
    
+   private File m_currentWaypointsFile = null;
+   private File m_currentPathFile = null;
+   
    public ApplicationController()
    {
       
@@ -157,6 +160,27 @@ public class ApplicationController
    {
       return m_frame;
    }
+
+   public File getCurrentWaypointsFile()
+   {
+      return m_currentWaypointsFile;
+   }
+
+   public void setCurrentWaypointsFile(File p_currentWaypointsFile)
+   {
+      m_currentWaypointsFile = p_currentWaypointsFile;
+   }
+
+   public File getCurrentPathFile()
+   {
+      return m_currentPathFile;
+   }
+
+   public void setCurrentPathFile(File p_currentPathFile)
+   {
+      m_currentPathFile = p_currentPathFile;
+   }
    
+
    
 }
