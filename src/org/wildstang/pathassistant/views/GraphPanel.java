@@ -32,12 +32,12 @@ public class GraphPanel extends JPanel
       m_velocityPlot = new FalconLinePlot(new double[0][0]);
       m_diffPlot = new FalconLinePlot(new double[0][0]);
       
-      m_pathPlot.setMinimumSize(new Dimension(874, 768));
-      m_velocityPlot.setMinimumSize(new Dimension(874, 768));
-      m_diffPlot.setMinimumSize(new Dimension(874, 768));
-      m_pathPlot.setPreferredSize(new Dimension(874, 768));
-      m_velocityPlot.setPreferredSize(new Dimension(874, 768));
-      m_diffPlot.setPreferredSize(new Dimension(874, 768));
+      m_pathPlot.setMinimumSize(new Dimension(750, 660));
+      m_velocityPlot.setMinimumSize(new Dimension(750, 660));
+      m_diffPlot.setMinimumSize(new Dimension(750, 660));
+      m_pathPlot.setPreferredSize(new Dimension(750, 660));
+      m_velocityPlot.setPreferredSize(new Dimension(750, 660));
+      m_diffPlot.setPreferredSize(new Dimension(750, 660));
 
       m_pathPlot.setFocusable(false);
       m_velocityPlot.setFocusable(false);
@@ -156,8 +156,12 @@ public class GraphPanel extends JPanel
       p_plot.addData(new double[][]{{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12), 13.5 - (70.5 / 24)},{(93.3 / 12) + (70.5 * Math.sqrt(3) / 12), 13.5 + (70.5 / 24)}}, Color.ORANGE);
       
       // Front line edge of airship
-      p_plot.addData(new double[][]{{114.3 / 12, 13.5 - (70.5 / 24)},{114.3 / 12,13.5 + (70.5 / 24)}}, Color.RED);
-      
+      p_plot.addData(new double[][]{{114.3 / 12,  13.5 - (70.5 / (Math.sqrt(3) * 24))},{114.3 / 12,13.5 + (70.5 / Math.sqrt(3) / 24)}}, Color.RED);
+      p_plot.addData(new double[][]{{114.3 / 12,  13.5 - (70.5 / (Math.sqrt(3) * 24))}, {12.4625, 13.5 - 3.3919328}}, Color.RED);
+      p_plot.addData(new double[][]{{114.3 / 12,  13.5 + (70.5 / Math.sqrt(3) / 24)}, {12.4625, 13.5 + 3.3919328}}, Color.RED);
+      p_plot.addData(new double[][]{{(114.3/12) - .67,13.5},{114.3/12,13.5}}, Color.RED );
+      p_plot.addData(new double[][]{{(114.3/12) + 1.46875, 13.5 + 2.5439}, {(114.3/12) + 1.46875 - (.67 / 2), 13.5 + 2.5439 + (.67 * Math.sqrt(3) / 2)}}, Color.RED);
+      p_plot.addData(new double[][]{{(114.3/12) + 1.46875, 13.5 - 2.5439}, {(114.3/12) + 1.46875 - (.67 / 2), 13.5 - 2.5439 - (.67 * Math.sqrt(3) / 2)}}, Color.RED);
       // Baseline
       p_plot.addData(new double[][]{{93.3 / 12, 0}, {93.3 / 12, 27}}, Color.GREEN);
       
